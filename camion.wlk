@@ -1,7 +1,7 @@
 import cosas.*
 
 object camion {
-	const property cosas = #{}
+	const property cosas = []
 	const tara = 1000		
 	method cargar(cosa) {
 		cosas.add(cosa)
@@ -20,7 +20,8 @@ object camion {
 	method hayAlgunoQuePesa(peso) {
 		return cosas.any({ cosa => cosa.peso() == peso })
 	}
-//devuelve el primer objeto cargado que encuentre, cuyo nivel de peligrosidad coincida exactamente con el valor indicado.
+/* devuelve el primer objeto cargado que encuentre, cuyo nivel de peligrosidad coincida exactamente con 
+el valor indicado. */
 	method elDeNivel(nivel) {
 		return cosas.max({ cosa => cosa.nivelDePeligrosidad() == nivel})
 	}
@@ -56,5 +57,11 @@ object camion {
 
 	method esSeguro(nivel) {
 		return self.objetosQueSuperanPeligrosidad(nivel).isEmpty() 
+	}
+
+	////AGREGADOS////
+/* indica si el peso de alguna de las cosas que tiene el camión está en ese intervalo*/
+	method tieneAlgoQuePesaEntre(min, max) {
+		return 
 	}
 }
