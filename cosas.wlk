@@ -1,15 +1,18 @@
 object knightRider {
 	method peso() { return 500 }
 	method nivelPeligrosidad() { return 10 }
+	method bultosQueRepresenta() { return 1 }
+	method reaccionAlSerCargado() { }
 }
 
 //Bumblebee: pesa 800 kilos y su nivel de peligrosidad es 15 si está transformado en auto o 30 si está como robot.
 object bumblebee {
-	var estado = auto
+	var property estado = auto
 	method peso() { return 800 }
 	method nivelDePeligrosidad() { return self.nivelDePeligrosidadSegunElEstado() }
-	method estado() { return estado }
 	method nivelDePeligrosidadSegunElEstado() { return self.estado().nivelDePeligrosidad() }
+	method bultosQueRepresenta() { return 2 }
+	method reaccionAlSerCargado() { estado = robot }
 }
 
 object auto {
@@ -28,12 +31,16 @@ object paqueteDeLadrillos {
 		cantLadrillos = _cantLadrillos
 	}
 	method nivelDePeligrosidad() { return 2 }
+	method bultosQueRepresenta() { return if (cantLadrillos < 100) 1 else if (cantLadrillos < 300) 2 else 3 }
+	method reaccionAlSerCargado() { cantLadrillos += 12 }
 }
 
 // Arena a granel: el peso es variable, la peligrosidad es 1.
 object arenaAGranel {
 	var property peso = 0
 	method nivelDePeligrosidad() { return 1 } 
+	method bultosQueRepresenta() { return 1 }
+	method reaccionAlSerCargado() { peso + 20 }
 }
 
 /* el peso es 300 kilos si está con los misiles o 200 en otro caso. En cuanto a la peligrosidad es 100 si está
@@ -45,6 +52,8 @@ object bateriaAntiAerea {
 	}
 	method peso() { return if (tieneMisiles) 300 else 200 }
 	method nivelDePeligrosidad() { return if (tieneMisiles) 100 else 0 }
+	method bultosQueRepresenta() { return if (tieneMisiles) 2 else 1 }
+	method reaccionAlSerCargado() { tieneMisiles = true }
 }
 
 /* un contenedor puede tener otras cosas adentro. El peso es 100 + la suma de todas las cosas que estén adentro.
@@ -66,16 +75,28 @@ object contenedorPortuario{
 	method cosaMasPeligrosaQueContiene() {
 		return cosas.maxIfEmpty({cosa => cosa.nivelDePeligrosidad()} , null )
 	}
+	method bultosQueRepresenta() { return 1 + self.cantDeBultosQueContiene() }
+	method cantDeBultosQueContiene() {
+		return cosasQueContiene.sum({ cosa => cosa.bultosQueRepresenta() })
+	}
+	method reaccionAlSerCargado() { 
+		cosasQueContiene.forEach({ cosa => cosa.reaccionAlSerCargado() })
+	}
 }
 /* Residuos radioactivos: el peso es variable y su peligrosidad es 200.*/
 object residuosRadioactivos {
 	var property peso = 0
 	method nivelDePeligrosidad() { return 200 } 
+	method bultosQueRepresenta() { return 1 }
+	method reaccionAlSerCargado() { peso + 15 }
 }
 
 /* es una cobertura que envuelve a cualquier otra cosa. El peso es el peso de la cosa que tenga adentro. 
 El nivel de peligrosidad es la mitad del nivel de peligrosidad de lo que envuelve.*/
 object embalajeDeSeguridad {
+	var cosaQueEnvuelve = self
 	method peso() { return 0 }
 	method nivelDePeligrosidad() { return 0 }
+	method bultosQueRepresenta() { cosaQueEnvuelve.nivelDePeligrosidad() = cosaQueEnvuelve.nivelDePeligrosidad() * 0.5 }
+	method reaccionAlSerCargado() {  }
 }
