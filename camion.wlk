@@ -1,3 +1,4 @@
+
 import cosas.*
 
 object camion {
@@ -24,7 +25,7 @@ object camion {
 /* devuelve el primer objeto cargado que encuentre, cuyo nivel de peligrosidad coincida exactamente con 
 el valor indicado. */
 	method elDeNivel(nivel) {
-		return cosas.max({ cosa => cosa.nivelDePeligrosidad() == nivel})
+		return cosas.find({ cosa => cosa.nivelDePeligrosidad() == nivel})
 	}
 
 //es la suma del peso del camión vacío (tara) y su carga. La tara del camión es de 1000 kilos.	
@@ -92,13 +93,13 @@ que tiene adentro.*/
 	}
 
 	method valirdarTransportar(destino, camino){
-	  	if ( not self.excedidoDePeso() || not self.puedePasarPor(camino)  || not self.sePuedeAlmacenarEn(destino) ) {
+	  	if ( self.excedidoDePeso() || not (self.puedePasarPor(camino) && self.sePuedeAlmacenarEn(destino)) ) {
 			self.error("No se puede hacer el transporte. El camion se excede de peso o, el camion no puede pasar por el camino " + camino +  " o, no se puede dejar la carga en " + destino)
 	   	}
 	}
 
 	method puedePasarPor(camino) {
-		return camino.dejaCircular(self)
+		return camino.permiteCircular(self)
 	}
 
 	method sePuedeAlmacenarEn(destino) {
@@ -113,35 +114,35 @@ object almacen {
   	method almacenar(cosas) {
 		self.validarAlmacenar(cosas) 
 		cosasAlmacenadas.addAll(cosas)
-		cantidadDeBultosDisponible = cantidadDeBultosDisponible - self.bultosOcupaCosas(cosas)
+		cantidadDeBultosDisponible = cantidadDeBultosDisponible - self.bultosOcupados(cosas)
   	}
   	method validarAlmacenar(cosas){
 		return 
 			if (not self.sePuedeAlmacenar(cosas)){
-				self.error("no hay suficiente espacio para almacenar" + cosas)
+				self.error("No hay suficiente espacio para almacenar " + cosas)
 			}
 	}
  	method sePuedeAlmacenar(cosas) {
-		return cantidadDeBultosDisponible >= self.bultosOcupaCosas(cosas)
+		return cantidadDeBultosDisponible >= self.bultosOcupados(cosas)
   	}
 
-  	method bultosOcupaCosas(cosas) {
-		return cosas.sum({ cosa => cosa.bultos() })
+  	method bultosOcupados(cosas) {
+		return cosas.sum({ cosa => cosa.bultosQueRepresentan() })
   	}
 }
 
 object ruta9 {
-  	method nivelPeligrosidad() { return 11 }
+  	method nivelDePeligrosidad() { return 11 }
   	method pesoMaximoSoportable() { return 2500 }
-  	method dejaCircular(transporte) {
-		return transporte.puedeCircularEnRuta(self.nivelPeligrosidad())
+  	method permiteCircular(transporte) {
+		return transporte.puedeCircularEnRuta(self.nivelDePeligrosidad())
   	}
 }
 
 object caminosVecinales {
 	var property pesoMaximoSoportable = 2500
-  	method nivelPeligrosidad() { return 11 } 
- 	method dejaCircular(transporte) {
+  	method nivelDePeligrosidad() { return 11 } 
+ 	method permiteCircular(transporte) {
 		return transporte.pesoTotal() <= pesoMaximoSoportable
   	}
 }

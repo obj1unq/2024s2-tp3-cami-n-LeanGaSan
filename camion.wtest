@@ -1,9 +1,160 @@
+
 import camion.*
 import cosas.*
 
 describe "camion" {
-    test "carga y  descarga" {
-        assert.equals(camion.cosas(), [])
-        camion.cargar()
+
+    test "cargar " {
+        camion.cargar(paqueteDeLadrillos)
+        assert.equals([paqueteDeLadrillos], camion.cosas())
+    }
+
+    test "descargar " {
+        camion.cargar(paqueteDeLadrillos)
+        camion.cargar(knightRider)
+        camion.descargar(paqueteDeLadrillos)
+        assert.equals([knightRider], camion.cosas())
+    }
+
+    test "todoPesoPar " {
+        camion.cargar(paqueteDeLadrillos)
+        camion.cargar(knightRider)
+        assert.that(camion.todoPesoPar())
+    }
+    
+    test "hayAlgunoQuePesa(peso) " {
+        camion.cargar(knightRider)
+        camion.cargar(residuosRadioactivos)
+        assert.that(camion.hayAlgunoQuePesa(500))
+    }
+
+    test "elDeNivel(nivel) " {  
+        camion.cargar(knightRider)
+        camion.cargar(paqueteDeLadrillos)
+        assert.equals(paqueteDeLadrillos, camion.elDeNivel(2))
+    }
+
+    test "pesoTotal() " {
+        camion.cargar(knightRider)
+        camion.cargar(bumblebee)
+        assert.equals(2300, camion.pesoTotal())
+    }
+
+    test "excedidoDePeso() " {
+        camion.cargar(knightRider)
+        camion.cargar(bateriaAntiaerea)
+        camion.cargar(residuosRadioactivos)
+        camion.cargar(bumblebee)
+        assert.that(camion.excedidoDePeso())
+    }
+
+    test "objetosQueSuperanPeligrosidad(nivel) " {
+        camion.cargar(paqueteDeLadrillos)
+        camion.cargar(knightRider)
+        assert.equals([knightRider], camion.objetosQueSuperanPeligrosidad(2))
+    }
+
+    test "objetosMasPeligrososQue(cosa) " {
+        camion.cargar(paqueteDeLadrillos)
+        camion.cargar(knightRider)
+        assert.equals([knightRider], camion.objetosMasPeligrososQue(paqueteDeLadrillos))
+    }
+
+    test "puedeCircularEnRuta(nivelMaximoPeligrosidad) " {
+        camion.cargar(knightRider)
+        camion.cargar(paqueteDeLadrillos)
+        camion.cargar(residuosRadioactivos)
+        assert.that(camion.puedeCircularEnRuta(200))
+    }
+
+    test "tieneAlgoQuePesaEntre(min, max) " {
+        camion.cargar(knightRider)
+        camion.cargar(paqueteDeLadrillos)
+        camion.cargar(residuosRadioactivos)
+        assert.that(camion.tieneAlgoQuePesaEntre(500, 600)) 
+    }
+
+    test "cosaMasPesada() " {
+        camion.cargar(paqueteDeLadrillos)
+        camion.cargar(knightRider)
+        assert.equals(knightRider, camion.cosaMasPesada())
+    }
+
+    test "pesos() " {
+        camion.cargar(bateriaAntiaerea)
+        camion.cargar(knightRider)
+        assert.equals( [300, 500], camion.pesos())
+    }
+
+    test "totalBultos() " {
+        camion.cargar(bateriaAntiaerea)
+        camion.cargar(knightRider)
+        assert.equals( 3, camion.totalBultos())
     }
 }
+describe "efectos de carga" {
+    test "Bumblebee pasa a robot" {
+        camion.cargar(bumblebee)
+
+        assert.equals(robot, bumblebee.estado())
+    }
+    test "más 12 ladrillos" {
+        camion.cargar(paqueteDeLadrillos)
+
+        assert.equals( 24, paqueteDeLadrillos.peso() )
+    }
+    test "arena a granel: agrega 20 kilos" {
+        camion.cargar(arenaAGranel)
+
+        assert.equals( 20, arenaAGranel.peso())
+    }
+    test "batería antiaérea: carga misiles" {
+        assert.equals(200, bateriaAntiaerea.peso())
+        camion.cargar(bateriaAntiaerea)
+
+        assert.equals(300, bateriaAntiaerea.peso())
+    }
+    test "contenedorPortuario agregarCosa(cosa)"{
+        contenedorPortuario.cargar(arenaAGranel)
+        assert.equals( 100, contenedorPortuario.peso())
+    }
+    test "contenedor portuario: hace que reaccione cada una de las cosas que tiene adentro" {
+        
+        contenedorPortuario.cargar(arenaAGranel)
+        camion.cargar(contenedorPortuario)
+
+        assert.equals( 120, contenedorPortuario.peso())
+    }
+
+    test "residuos radioactivos: agrega 15 kilos"{
+        assert.equals( 0, residuosRadioactivos.peso())
+        camion.cargar(residuosRadioactivos)
+        assert.equals( 15, residuosRadioactivos.peso())
+    }
+}
+
+describe "Transporte" {
+    test "ruta9 permiteCircular(camion)"{
+        camion.cargar(knightRider)
+        assert.that( ruta9.permiteCircular(camion))
+    }
+    test "caminosVecinales permiteCircular(camion)"{
+        camion.cargar(knightRider)
+        assert.that(caminosVecinales.permiteCircular(camion))
+    }
+    test "almacen"{
+        assert.that(almacen.cosasAlmacenadas.isEmpty())
+        almacen.almacenar([knightRider])
+        assert.that(almacen.cantidadDeBultosDisponible == 2)
+    }
+    test "transporta (destino, camino)"{
+        camion.cargar(bumblebee)
+        camion.transportar(almacen, ruta9)
+        assert.equals([bumblebee], almacen.cosasAlmacenadas())
+}
+    test "como queda el camion despues del clear"{
+        camion.cargar(knightRider)
+        camion.transportar(almacen, ruta9)
+        assert.equals([], camion.cosas())
+}
+}   

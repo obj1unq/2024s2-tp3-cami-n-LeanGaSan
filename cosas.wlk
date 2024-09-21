@@ -1,3 +1,4 @@
+
 object knightRider {
 	method peso() { return 500 }
 	method nivelPeligrosidad() { return 10 }
@@ -31,7 +32,7 @@ object paqueteDeLadrillos {
 		cantLadrillos = _cantLadrillos
 	}
 	method nivelDePeligrosidad() { return 2 }
-	method bultosQueRepresenta() { return if (cantLadrillos < 100) 1 else if (cantLadrillos < 300) 2 else 3 }
+	method bultosQueRepresenta() { return if (cantLadrillos <= 100) 1 else if (cantLadrillos <= 300) 2 else 3 }
 	method reaccionAlSerCargado() { cantLadrillos += 12 }
 }
 
@@ -45,7 +46,7 @@ object arenaAGranel {
 
 /* el peso es 300 kilos si está con los misiles o 200 en otro caso. En cuanto a la peligrosidad es 100 si está
  con los misiles y 0 en otro caso. */
-object bateriaAntiAerea {
+object bateriaAntiaerea {
 	var tieneMisiles = false
 	method tieneMisiles(_tieneMisiles) {
 		tieneMisiles = _tieneMisiles
