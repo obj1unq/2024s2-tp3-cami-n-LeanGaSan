@@ -5,6 +5,7 @@ object camion {
 	const tara = 1000		
 	method cargar(cosa) {
 		cosas.add(cosa)
+		cosas.reaccionAlSerCargado()
 	}
 
 	method descargar(cosa) {
@@ -13,7 +14,7 @@ object camion {
 
 	//si el peso de cada uno de los objetos cargados es un número par.
 	method todoPesoPar() {
-		return cosas.all({ cosa => cosa.peso().even()}) // Está bien, pero tendría que hacer un mensaje para cada objeto que me diga si su peso es par. 
+		return cosas.all({ cosa => cosa.peso().even()})  
 	}
 // indica si hay alguno de los objetos cargados que tiene exactamente el peso indicado.
 

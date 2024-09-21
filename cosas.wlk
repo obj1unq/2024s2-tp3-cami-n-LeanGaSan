@@ -94,9 +94,9 @@ object residuosRadioactivos {
 /* es una cobertura que envuelve a cualquier otra cosa. El peso es el peso de la cosa que tenga adentro. 
 El nivel de peligrosidad es la mitad del nivel de peligrosidad de lo que envuelve.*/
 object embalajeDeSeguridad {
-	var cosaQueEnvuelve = self
-	method peso() { return 0 }
-	method nivelDePeligrosidad() { return 0 }
-	method bultosQueRepresenta() { cosaQueEnvuelve.nivelDePeligrosidad() = cosaQueEnvuelve.nivelDePeligrosidad() * 0.5 }
+	var property cosaQueEnvuelve = self
+	method peso() { return cosaQueEnvuelve.peso() }
+	method nivelDePeligrosidad() { return cosaQueEnvuelve.nivelDePeligrosidad() * 0.5 }
+	method bultosQueRepresenta() { 2 }
 	method reaccionAlSerCargado() {  }
 }

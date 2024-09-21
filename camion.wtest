@@ -1,1 +1,9 @@
+import camion.*
+import cosas.*
 
+describe "camion" {
+    test "carga y  descarga" {
+        assert.equals(camion.cosas(), [])
+        camion.cargar()
+    }
+}
