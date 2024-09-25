@@ -1,9 +1,10 @@
 
 import cosas.*
 
-object camion {
-	const property cosas = []
-	const tara = 1000		
+object camion { //Prueba 
+ 	const property cosas = []
+	const tara = 1000
+	
 	method cargar(cosa) {
 		cosas.add(cosa)
 		cosas.reaccionAlSerCargado()
@@ -13,15 +14,16 @@ object camion {
 		cosas.remove(cosa)
 	}
 
-	//si el peso de cada uno de los objetos cargados es un número par.
+//si el peso de cada uno de los objetos cargados es un número par.
 	method todoPesoPar() {
 		return cosas.all({ cosa => cosa.peso().even()})  
 	}
-// indica si hay alguno de los objetos cargados que tiene exactamente el peso indicado.
 
+// indica si hay alguno de los objetos cargados que tiene exactamente el peso indicado.
 	method hayAlgunoQuePesa(peso) {
 		return cosas.any({ cosa => cosa.peso() == peso })
 	}
+
 /* devuelve el primer objeto cargado que encuentre, cuyo nivel de peligrosidad coincida exactamente con 
 el valor indicado. */
 	method elDeNivel(nivel) {
@@ -146,3 +148,4 @@ object caminosVecinales {
 		return transporte.pesoTotal() <= pesoMaximoSoportable
   	}
 }
+
