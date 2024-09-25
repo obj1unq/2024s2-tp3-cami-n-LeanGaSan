@@ -5,11 +5,15 @@ import cosas.*
 describe "camion" {
 
     test "cargar " {
+        const camion = new Camion(tara = 1000, cosas =#{})
+
         camion.cargar(paqueteDeLadrillos)
         assert.equals([paqueteDeLadrillos], camion.cosas())
     }
 
     test "descargar " {
+        const camion = new Camion(tara = 1000, cosas =#{})
+
         camion.cargar(paqueteDeLadrillos)
         camion.cargar(knightRider)
         camion.descargar(paqueteDeLadrillos)
@@ -17,30 +21,40 @@ describe "camion" {
     }
 
     test "todoPesoPar " {
+        const camion = new Camion(tara = 1000, cosas =#{})
+
         camion.cargar(paqueteDeLadrillos)
         camion.cargar(knightRider)
         assert.that(camion.todoPesoPar())
     }
     
     test "hayAlgunoQuePesa(peso) " {
+        const camion = new Camion(tara = 1000, cosas =#{})
+
         camion.cargar(knightRider)
         camion.cargar(residuosRadioactivos)
         assert.that(camion.hayAlgunoQuePesa(500))
     }
 
     test "elDeNivel(nivel) " {  
+        const camion = new Camion(tara = 1000, cosas =#{})
+
         camion.cargar(knightRider)
         camion.cargar(paqueteDeLadrillos)
         assert.equals(paqueteDeLadrillos, camion.elDeNivel(2))
     }
 
     test "pesoTotal() " {
+        const camion = new Camion(tara = 1000, cosas =#{})
+
         camion.cargar(knightRider)
         camion.cargar(bumblebee)
         assert.equals(2300, camion.pesoTotal())
     }
 
     test "excedidoDePeso() " {
+        const camion = new Camion(tara = 1000, cosas =#{})
+
         camion.cargar(knightRider)
         camion.cargar(bateriaAntiaerea)
         camion.cargar(residuosRadioactivos)
@@ -49,18 +63,24 @@ describe "camion" {
     }
 
     test "objetosQueSuperanPeligrosidad(nivel) " {
+        const camion = new Camion(tara = 1000, cosas =#{})
+
         camion.cargar(paqueteDeLadrillos)
         camion.cargar(knightRider)
         assert.equals([knightRider], camion.objetosQueSuperanPeligrosidad(2))
     }
 
     test "objetosMasPeligrososQue(cosa) " {
+        const camion = new Camion(tara = 1000, cosas =#{})
+
         camion.cargar(paqueteDeLadrillos)
         camion.cargar(knightRider)
         assert.equals([knightRider], camion.objetosMasPeligrososQue(paqueteDeLadrillos))
     }
 
     test "puedeCircularEnRuta(nivelMaximoPeligrosidad) " {
+        const camion = new Camion(tara = 1000, cosas =#{})
+
         camion.cargar(knightRider)
         camion.cargar(paqueteDeLadrillos)
         camion.cargar(residuosRadioactivos)
@@ -68,6 +88,8 @@ describe "camion" {
     }
 
     test "tieneAlgoQuePesaEntre(min, max) " {
+        const camion = new Camion(tara = 1000, cosas =#{})
+
         camion.cargar(knightRider)
         camion.cargar(paqueteDeLadrillos)
         camion.cargar(residuosRadioactivos)
@@ -75,24 +97,32 @@ describe "camion" {
     }
 
     test "cosaMasPesada() " {
+        const camion = new Camion(tara = 1000, cosas =#{})
+
         camion.cargar(paqueteDeLadrillos)
         camion.cargar(knightRider)
         assert.equals(knightRider, camion.cosaMasPesada())
     }
 
     test "pesos() " {
+        const camion = new Camion(tara = 1000, cosas =#{})
+
         camion.cargar(bateriaAntiaerea)
         camion.cargar(knightRider)
         assert.equals( [300, 500], camion.pesos())
     }
 
     test "totalBultos() " {
+        const camion = new Camion(tara = 1000, cosas =#{})
+
         camion.cargar(bateriaAntiaerea)
         camion.cargar(knightRider)
         assert.equals( 3, camion.totalBultos())
     }
 }
 describe "efectos de carga" {
+    const camion = new Camion(tara = 1000, cosas =#{})
+
     test "Bumblebee pasa a robot" {
         camion.cargar(bumblebee)
 
@@ -135,10 +165,14 @@ describe "efectos de carga" {
 
 describe "Transporte" {
     test "ruta9 permiteCircular(camion)"{
+        const camion = new Camion(tara = 1000, cosas =#{})
+
         camion.cargar(knightRider)
         assert.that( ruta9.permiteCircular(camion))
     }
     test "caminosVecinales permiteCircular(camion)"{
+        const camion = new Camion(tara = 1000, cosas =#{})
+
         camion.cargar(knightRider)
         assert.that(caminosVecinales.permiteCircular(camion))
     }
@@ -148,11 +182,15 @@ describe "Transporte" {
         assert.that(almacen.cantidadDeBultosDisponible == 2)
     }
     test "transporta (destino, camino)"{
+        const camion = new Camion(tara = 1000, cosas =#{})
+
         camion.cargar(bumblebee)
         camion.transportar(almacen, ruta9)
         assert.equals([bumblebee], almacen.cosasAlmacenadas())
 }
     test "como queda el camion despues del clear"{
+        const camion = new Camion(tara = 1000, cosas =#{})
+        
         camion.cargar(knightRider)
         camion.transportar(almacen, ruta9)
         assert.equals([], camion.cosas())

@@ -74,7 +74,7 @@ object contenedorPortuario{
 		return if (self.noContieneNada()) 0 else self.cosaMasPeligrosaQueContiene().nivelDePeligrosidad()
 	}
 	method cosaMasPeligrosaQueContiene() {
-		return cosas.maxIfEmpty({cosa => cosa.nivelDePeligrosidad()} , null )
+		return cosasQueContiene.maxIfEmpty({cosa => cosa.nivelDePeligrosidad()} , null )
 	}
 	method bultosQueRepresenta() { return 1 + self.cantDeBultosQueContiene() }
 	method cantDeBultosQueContiene() {
@@ -94,7 +94,7 @@ object residuosRadioactivos {
 
 /* es una cobertura que envuelve a cualquier otra cosa. El peso es el peso de la cosa que tenga adentro. 
 El nivel de peligrosidad es la mitad del nivel de peligrosidad de lo que envuelve.*/
-object embalajeDeSeguridad {
+class EmbalajeDeSeguridad {
 	var property cosaQueEnvuelve = self
 	method peso() { return cosaQueEnvuelve.peso() }
 	method nivelDePeligrosidad() { return cosaQueEnvuelve.nivelDePeligrosidad() * 0.5 }

@@ -1,9 +1,9 @@
 
 import cosas.*
 
-object camion { //Prueba 
- 	const property cosas = []
-	const tara = 1000
+class Camion { //Prueba 
+ 	const property cosas = null
+	const tara = null
 	
 	method cargar(cosa) {
 		cosas.add(cosa)
@@ -110,9 +110,12 @@ que tiene adentro.*/
 
 }
 //almacen y viaje
-object almacen {
-  	const property cosasAlmacenadas = []
+const paqueteCon100 = new PaqueteDeLadrillos(unidades = 100)
+class Almacen {
+	var property camion = new Camion(tara = 1000, cosas = #{}) 
+  	const property cosasAlmacenadas = [paqueteCon100, new PaqueteDeLadrillos(unidades = 100)].contains(new PaqueteDeLadrillos(unidades = 100))
   	var property cantidadDeBultosDisponible = 3 
+
   	method almacenar(cosas) {
 		self.validarAlmacenar(cosas) 
 		cosasAlmacenadas.addAll(cosas)
@@ -131,6 +134,25 @@ object almacen {
   	method bultosOcupados(cosas) {
 		return cosas.sum({ cosa => cosa.bultosQueRepresentan() })
   	}
+
+	/* Prueba de si puedo hacer un camion como un mensaje del almacén
+	method camionDePrueba() = new Camion(tara = 1000, cosas = #{}) {
+		return 0 
+	}
+	Efectivamente, esto no se puede hacer. Para hacerle una referencia es con un atributo 
+	const camion = new Camion(tara = 1000, cosas = #{}) */
+}
+
+const camionChiquito = new Camion(tara = 700, cosas = #{})
+const camionMediano = new Camion(tara = 1000, cosas = #{})
+const camionGrande = new Camion(tara = 2000, cosas = #{})
+
+object empresa {
+	const property camiones = #{camionChiquito, camionMediano, camionGrande}
+	
+	method hayCamionMediano() {
+		camiones.any({camion => camion.peso() == 1000 })
+	}
 }
 
 object ruta9 {
