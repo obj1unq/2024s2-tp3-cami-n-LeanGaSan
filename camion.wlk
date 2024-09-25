@@ -151,7 +151,7 @@ object empresa {
 	const property camiones = #{camionChiquito, camionMediano, camionGrande}
 	
 	method hayCamionMediano() {
-		camiones.any({camion => camion.peso() == 1000 })
+		return camiones.any({camion => camion.peso() == 1000 })
 	}
 }
 
